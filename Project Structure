@@ -1,0 +1,23 @@
+campus-events-hub/
+├── assets/
+│   ├── css/
+│   │   └── style.css
+│   └── images/
+│       ├── logo.png
+│       ├── event1.jpg
+│       ├── event2.jpg
+│       └── event3.jpg
+├── includes/
+│   ├── header.php
+│   ├── footer.php
+│   └── config.php
+├── data/
+│   ├── events.csv
+│   └── registrations.csv
+├── index.php
+├── events.php
+├── event-details.php
+├── register.php
+├── registrations.php
+├── about.php
+└── README.txt
