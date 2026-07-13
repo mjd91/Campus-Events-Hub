@@ -1,0 +1,40 @@
+<?php
+// =============================================
+// EVENTS PAGE - List all events
+// =============================================
+
+$page_title = 'All Events';
+require_once 'includes/config.php';
+include 'includes/header.php';
+
+$events = getEvents();
+?>
+
+<h2 class="page-title">All Events</h2>
+
+<?php if (empty($events)): ?>
+    <p>No events available at the moment. Please check back later!</p>
+<?php else: ?>
+    <div class="events-grid">
+        <?php foreach ($events as $event): ?>
+            <div class="event-card">
+                <?php if (!empty($event['image'])): ?>
+                    <img src="<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
+                <?php else: ?>
+                    <img src="assets/images/placeholder.jpg" alt="Event placeholder">
+                <?php endif; ?>
+                <div class="event-card-content">
+                    <h3><?php echo htmlspecialchars($event['title']); ?></h3>
+                    <div class="meta">
+                        <span>📅 <?php echo htmlspecialchars($event['date'] ?? 'TBD'); ?></span>
+                        <span>📍 <?php echo htmlspecialchars($event['location'] ?? 'TBD'); ?></span>
+                    </div>
+                    <p class="description"><?php echo htmlspecialchars(substr($event['description'] ?? '', 0, 120)) . '...'; ?></p>
+                    <a href="event-details.php?id=<?php echo $event['id']; ?>" class="btn">View Details</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?php include 'includes/footer.php'; ?>
