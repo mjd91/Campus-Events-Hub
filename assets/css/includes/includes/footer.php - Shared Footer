@@ -1,0 +1,15 @@
+<?php
+// =============================================
+// SHARED FOOTER - Included on every page
+// =============================================
+?>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; <?php echo date('Y'); ?> <?php echo SITE_TITLE; ?>. All rights reserved.</p>
+            <p>Built with ❤️ by IT361 Students</p>
+        </div>
+    </footer>
+</body>
+</html>
