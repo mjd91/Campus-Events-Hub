@@ -1,0 +1,51 @@
+<?php
+// =============================================
+// EVENT DETAILS PAGE - Shows single event details
+// =============================================
+
+$page_title = 'Event Details';
+require_once 'includes/config.php';
+include 'includes/header.php';
+
+// Get event ID from URL parameter
+$event_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($event_id <= 0) {
+    echo '<p class="error-box">Invalid event ID. Please go back and select a valid event.</p>';
+    include 'includes/footer.php';
+    exit;
+}
+
+$event = getEventById($event_id);
+
+if (!$event) {
+    echo '<p class="error-box">Event not found. Please check the event ID and try again.</p>';
+    include 'includes/footer.php';
+    exit;
+}
+?>
+
+<div class="event-detail">
+    <?php if (!empty($event['image'])): ?>
+        <img src="<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>" style="max-height: 400px; width: 100%; object-fit: cover;">
+    <?php endif; ?>
+    
+    <h2><?php echo htmlspecialchars($event['title']); ?></h2>
+    
+    <div class="meta">
+        <span>📅 <strong>Date:</strong> <?php echo htmlspecialchars($event['date'] ?? 'TBD'); ?></span>
+        <span>📍 <strong>Location:</strong> <?php echo htmlspecialchars($event['location'] ?? 'TBD'); ?></span>
+        <span>🕐 <strong>Time:</strong> <?php echo htmlspecialchars($event['time'] ?? 'TBD'); ?></span>
+        <span>👤 <strong>Organizer:</strong> <?php echo htmlspecialchars($event['organizer'] ?? 'TBD'); ?></span>
+    </div>
+    
+    <div class="description">
+        <h3>About This Event</h3>
+        <p><?php echo htmlspecialchars($event['description'] ?? 'No description available.'); ?></p>
+    </div>
+    
+    <a href="register.php?event_id=<?php echo $event['id']; ?>" class="btn btn-secondary">Register Now</a>
+    <a href="events.php" class="btn" style="margin-left: 10px;">← Back to Events</a>
+</div>
+
+<?php include 'includes/footer.php'; ?>
