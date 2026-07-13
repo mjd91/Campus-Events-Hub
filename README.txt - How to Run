@@ -1,0 +1,32 @@
+============================================
+CAMPUS EVENTS HUB - Project README
+============================================
+
+HOW TO RUN THE WEBSITE:
+
+1. Copy the entire "campus-events-hub" folder to your XAMPP htdocs directory:
+   C:\xampp\htdocs\campus-events-hub\
+
+2. Start XAMPP and ensure Apache is running.
+
+3. Open your web browser and navigate to:
+   http://localhost/campus-events-hub/
+
+4. The home page (index.php) will load. You can navigate through all pages.
+
+PROJECT STRUCTURE:
+- index.php          : Home page with event highlights
+- events.php         : List of all events
+- event-details.php  : Single event details (use ?id= parameter)
+- register.php       : Event registration form
+- registrations.php  : List of all registrations
+- about.php          : About us and contact form
+- assets/css/        : External stylesheets
+- includes/          : Shared PHP components (header, footer, config)
+- data/              : CSV data files (events and registrations)
+
+TECHNICAL NOTES:
+- PHP is required (XAMPP/WAMP/MAMP).
+- Data is stored in CSV files for simplicity.
+- No external frameworks or libraries are used.
+- All validation is done server-side with PHP.
