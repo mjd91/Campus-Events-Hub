@@ -1,0 +1,36 @@
+<?php
+// =============================================
+// SHARED HEADER - Included on every page
+// =============================================
+
+// Get current page name for active link highlighting
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo SITE_TITLE; ?> - <?php echo $page_title ?? 'Home'; ?></title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="Campus Events Hub Logo">
+                <h1>Campus <span>Events</span> Hub</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.php" class="<?php echo $current_page == 'index.php' ? 'active' : ''; ?>">Home</a></li>
+                    <li><a href="events.php" class="<?php echo $current_page == 'events.php' ? 'active' : ''; ?>">Events</a></li>
+                    <li><a href="register.php" class="<?php echo $current_page == 'register.php' ? 'active' : ''; ?>">Register</a></li>
+                    <li><a href="registrations.php" class="<?php echo $current_page == 'registrations.php' ? 'active' : ''; ?>">Registrations</a></li>
+                    <li><a href="about.php" class="<?php echo $current_page == 'about.php' ? 'active' : ''; ?>">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
