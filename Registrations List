@@ -1,0 +1,49 @@
+<?php
+// =============================================
+// REGISTRATIONS LIST PAGE - Display all registrations
+// =============================================
+
+$page_title = 'Registrations List';
+require_once 'includes/config.php';
+include 'includes/header.php';
+
+$registrations = getRegistrations();
+?>
+
+<h2 class="page-title">All Registrations</h2>
+
+<div class="table-container">
+    <?php if (empty($registrations)): ?>
+        <p>No registrations have been submitted yet.</p>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Student ID</th>
+                    <th>Email</th>
+                    <th>Event</th>
+                    <th>Registration Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($registrations as $reg): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($reg['id'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($reg['student_name'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($reg['student_id'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($reg['email'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($reg['event_title'] ?? 'N/A'); ?></td>
+                        <td><?php echo htmlspecialchars($reg['registration_date'] ?? ''); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p style="margin-top: 15px; color: #777;">
+            Total Registrations: <strong><?php echo count($registrations); ?></strong>
+        </p>
+    <?php endif; ?>
+</div>
+
+<?php include 'includes/footer.php'; ?>
