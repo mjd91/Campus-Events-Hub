@@ -1,0 +1,127 @@
+<?php
+// =============================================
+// ABOUT / CONTACT PAGE
+// =============================================
+
+$page_title = 'About Us';
+require_once 'includes/config.php';
+include 'includes/header.php';
+
+// Contact form validation (no email sending required)
+$contact_errors = [];
+$contact_success = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
+    $contact_name = trim($_POST['contact_name'] ?? '');
+    $contact_email = trim($_POST['contact_email'] ?? '');
+    $contact_message = trim($_POST['contact_message'] ?? '');
+    
+    if (empty($contact_name)) {
+        $contact_errors[] = 'Name is required.';
+    }
+    if (empty($contact_email) || !filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
+        $contact_errors[] = 'Valid email is required.';
+    }
+    if (empty($contact_message)) {
+        $contact_errors[] = 'Message is required.';
+    }
+    
+    if (empty($contact_errors)) {
+        $contact_success = 'Your message has been sent! We\'ll get back to you soon.';
+    }
+}
+?>
+
+<div class="about-section">
+    <!-- About Information -->
+    <div class="info">
+        <h2 class="page-title" style="border-bottom: none; margin-bottom: 15px;">About Us</h2>
+        
+        <h3>🏛️ Our Mission</h3>
+        <p>Welcome to the <strong>Campus Events Hub</strong> — a platform dedicated to connecting students with exciting opportunities across the university. From academic workshops and career seminars to cultural competitions and outdoor trips, we make sure you never miss out on what's happening on campus.</p>
+        
+        <h3>🎯 What We Offer</h3>
+        <ul style="list-style: disc; padding-left: 20px; margin: 10px 0;">
+            <li>📚 Academic workshops and seminars</li>
+            <li>🏆 Competitions and hackathons</li>
+            <li>🎭 Cultural and social events</li>
+            <li>✈️ University trips and excursions</li>
+        </ul>
+        
+        <h3>👥 Meet the Team</h3>
+        <div class="team-members">
+            <div class="team-member">
+                <div class="avatar">👩‍💻</div>
+                <h4>Student 1</h4>
+                <p>Project Lead &amp; Frontend</p>
+            </div>
+            <div class="team-member">
+                <div class="avatar">👨‍💻</div>
+                <h4>Student 2</h4>
+                <p>Backend &amp; Database</p>
+            </div>
+            <div class="team-member">
+                <div class="avatar">👩‍🎨</div>
+                <h4>Student 3</h4>
+                <p>UI/UX &amp; Content</p>
+            </div>
+            <div class="team-member">
+                <div class="avatar">🧑‍🏫</div>
+                <h4>Student 4</h4>
+                <p>Testing &amp; Documentation</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Form -->
+    <div>
+        <h3 style="color: #1a2a4a; margin-bottom: 20px;">📬 Contact Us</h3>
+        
+        <?php if (!empty($contact_errors)): ?>
+            <div class="error-box">
+                <strong>Please fix the following:</strong>
+                <ul style="margin-top: 10px; list-style: disc; padding-left: 20px;">
+                    <?php foreach ($contact_errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (!empty($contact_success)): ?>
+            <div class="success-message"><?php echo $contact_success; ?></div>
+        <?php endif; ?>
+        
+        <div class="form-container" style="box-shadow: none; padding: 0;">
+            <form action="about.php" method="POST">
+                <div class="form-group">
+                    <label for="contact_name">Your Name <span class="required">*</span></label>
+                    <input type="text" id="contact_name" name="contact_name" 
+                           value="<?php echo htmlspecialchars($_POST['contact_name'] ?? ''); ?>" 
+                           placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact_email">Your Email <span class="required">*</span></label>
+                    <input type="email" id="contact_email" name="contact_email" 
+                           value="<?php echo htmlspecialchars($_POST['contact_email'] ?? ''); ?>" 
+                           placeholder="you@university.edu" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact_message">Message <span class="required">*</span></label>
+                    <textarea id="contact_message" name="contact_message" 
+                              placeholder="Write your message here..." required><?php 
+                        echo htmlspecialchars($_POST['contact_message'] ?? ''); 
+                    ?></textarea>
+                </div>
+                
+                <button type="submit" name="contact_submit" class="btn" style="width: 100%;">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php include 'includes/footer.php'; ?>
