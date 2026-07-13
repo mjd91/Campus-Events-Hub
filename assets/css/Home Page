@@ -1,0 +1,50 @@
+<?php
+// =============================================
+// HOME PAGE - Campus Events Hub
+// =============================================
+
+$page_title = 'Home';
+require_once 'includes/config.php';
+include 'includes/header.php';
+
+// Get all events
+$events = getEvents();
+// Get only first 3 events for highlights
+$highlightEvents = array_slice($events, 0, 3);
+?>
+
+<section class="hero">
+    <h2>Welcome to Campus Events Hub</h2>
+    <p>Your one-stop destination for all university events — workshops, seminars, competitions, and trips. 
+       Join us and make the most of your campus life!</p>
+</section>
+
+<section>
+    <h2 class="page-title">Upcoming Highlights</h2>
+    <?php if (empty($highlightEvents)): ?>
+        <p>No upcoming events at the moment. Please check back later!</p>
+    <?php else: ?>
+        <div class="events-grid">
+            <?php foreach ($highlightEvents as $event): ?>
+                <div class="event-card">
+                    <?php if (!empty($event['image'])): ?>
+                        <img src="<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
+                    <?php else: ?>
+                        <img src="assets/images/placeholder.jpg" alt="Event placeholder">
+                    <?php endif; ?>
+                    <div class="event-card-content">
+                        <h3><?php echo htmlspecialchars($event['title']); ?></h3>
+                        <div class="meta">
+                            <span>📅 <?php echo htmlspecialchars($event['date'] ?? 'TBD'); ?></span>
+                            <span>📍 <?php echo htmlspecialchars($event['location'] ?? 'TBD'); ?></span>
+                        </div>
+                        <p class="description"><?php echo htmlspecialchars(substr($event['description'] ?? '', 0, 100)) . '...'; ?></p>
+                        <a href="event-details.php?id=<?php echo $event['id']; ?>" class="btn">View Details</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+<?php include 'includes/footer.php'; ?>
