@@ -1,0 +1,111 @@
+<?php
+// =============================================
+// CONFIGURATION FILE
+// =============================================
+
+// Error reporting for development
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Define root path
+define('ROOT_PATH', dirname(__DIR__));
+
+// Data file paths
+define('EVENTS_FILE', ROOT_PATH . '/data/events.csv');
+define('REGISTRATIONS_FILE', ROOT_PATH . '/data/registrations.csv');
+
+// Site title
+define('SITE_TITLE', 'Campus Events Hub');
+
+// Function to get all events from CSV
+function getEvents() {
+    $events = [];
+    if (file_exists(EVENTS_FILE)) {
+        $handle = fopen(EVENTS_FILE, 'r');
+        if ($handle !== false) {
+            // Read header
+            $header = fgetcsv($handle);
+            while (($row = fgetcsv($handle)) !== false) {
+                $event = [];
+                foreach ($header as $index => $key) {
+                    $event[$key] = $row[$index] ?? '';
+                }
+                $events[] = $event;
+            }
+            fclose($handle);
+        }
+    }
+    return $events;
+}
+
+// Function to get a single event by ID
+function getEventById($id) {
+    $events = getEvents();
+    foreach ($events as $event) {
+        if ($event['id'] == $id) {
+            return $event;
+        }
+    }
+    return null;
+}
+
+// Function to get all registrations
+function getRegistrations() {
+    $registrations = [];
+    if (file_exists(REGISTRATIONS_FILE)) {
+        $handle = fopen(REGISTRATIONS_FILE, 'r');
+        if ($handle !== false) {
+            $header = fgetcsv($handle);
+            while (($row = fgetcsv($handle)) !== false) {
+                $reg = [];
+                foreach ($header as $index => $key) {
+                    $reg[$key] = $row[$index] ?? '';
+                }
+                $registrations[] = $reg;
+            }
+            fclose($handle);
+        }
+    }
+    return $registrations;
+}
+
+// Function to save registration
+function saveRegistration($data) {
+    // Check if file exists, if not create with headers
+    $fileExists = file_exists(REGISTRATIONS_FILE);
+    $handle = fopen(REGISTRATIONS_FILE, 'a');
+    
+    if ($handle !== false) {
+        if (!$fileExists) {
+            // Write headers
+            fputcsv($handle, ['id', 'student_name', 'student_id', 'email', 'event_id', 'event_title', 'registration_date']);
+        }
+        // Write data
+        fputcsv($handle, $data);
+        fclose($handle);
+        return true;
+    }
+    return false;
+}
+
+// Function to generate next registration ID
+function getNextRegistrationId() {
+    $registrations = getRegistrations();
+    if (empty($registrations)) {
+        return 1;
+    }
+    $maxId = 0;
+    foreach ($registrations as $reg) {
+        if (isset($reg['id']) && (int)$reg['id'] > $maxId) {
+            $maxId = (int)$reg['id'];
+        }
+    }
+    return $maxId + 1;
+}
+
+// Function to get event title by ID
+function getEventTitle($id) {
+    $event = getEventById($id);
+    return $event ? $event['title'] : 'Unknown Event';
+}
+?>
